@@ -1,2 +1,2 @@
 # amvision_connector
-Example code for integration with the AM-Vision API
+Example code and data files for integration with the AM-Vision API
