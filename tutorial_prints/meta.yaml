@@ -1,0 +1,434 @@
+views:
+  - id: by_method
+    title: View by method
+  - id: by_tray
+    title: View by tray
+batches:
+  - id: tray_1
+    title: Tray 1
+    view: by_tray
+    query: tray=1
+  - id: tray_2
+    title: Tray 2
+    view: by_tray
+    query: tray=2
+  - id: tray_3
+    title: Tray 3
+    view: by_tray
+    query: tray=3
+  - id: method_SLS
+    title: Method SLS
+    view: by_method
+    query: method=SLS
+  - id: method_MJF
+    title: Method MJF
+    view: by_method
+    query: method=MJF
+  - id: all
+    title: All prints
+    view: by_method
+    query: copies__gt=0
+print_attributes:
+  - id: tray
+    datatype: NUMBER
+    field: tray_id
+    filtering: true
+    summary: true
+    detail: true
+    sorting: true
+    order: 10
+  - id: category
+    datatype: STRING
+    field: category
+    filtering: true
+    summary: true
+    detail: true
+    sorting: true
+    order: 11
+  - id: dye
+    datatype: STRING
+    field: dye_color
+    filtering: true
+    summary: true
+    detail: true
+    sorting: true
+    order: 12
+  - id: has_dye
+    datatype: STRING
+    field: dye_color
+    filtering: true
+    summary: false
+    detail: false
+    sorting: false
+  - id: method
+    datatype: STRING
+    field: print_method
+    filtering: true
+    summary: false
+    detail: true
+    sorting: false
+queries:
+  - id: Black
+    query: dye=BLACK
+    sorting: true
+  - id: Plain_SLS
+    query: has_dye=False&method=SLS
+    sorting: true
+  - id: Plain_MJF
+    query: has_dye=False&method=MJF
+    sorting: true
+  - id: Green
+    query: dye=GREEN
+    sorting: true
+  - id: Eyewear
+    query: category=Eyewear
+    sorting: true
+  - id: Fixtures
+    query: category=Fixtures
+    sorting: true
+  - id: Figurines
+    query: category=Figurines
+    sorting: true
+  - id: Scale_Models
+    query: category=Scale Models
+    sorting: true
+material_references:
+  - id: MJF_PLAIN
+    material: MTR_PRT_MJF_MAT_PA12
+  - id: SLS_PLAIN
+    material: MTR_PRT_SLS_MAT_PA2200
+  - id: SLS_BLACK
+    material: MTR_PRT_SLS_MAT_PA2200_DYE_black
+  - id: SLS_GREEN
+    material: MTR_PRT_SLS_MAT_PA2200_DYE_green
+prints:
+  - id: '0'
+    title: Glasses
+    print_method: SLS
+    dye_color: GREEN
+    is_dyed: true
+    material_id: SLS_GREEN
+    model_id: glasses
+    model_fn: glasses.stl
+    category: Eyewear
+    tray_id: 1
+    copies: 1
+  - id: '1'
+    title: Lamp Holder
+    print_method: SLS
+    dye_color: GREEN
+    is_dyed: true
+    material_id: SLS_GREEN
+    model_id: lamp_holder
+    model_fn: lamp_holder.stl
+    category: Fixtures
+    tray_id: 1
+    copies: 2
+  - id: '2'
+    title: Cube Earrings
+    print_method: SLS
+    dye_color: GREEN
+    is_dyed: true
+    material_id: SLS_GREEN
+    model_id: cube_earrings
+    model_fn: cube_earrings.stl
+    category: Figurines
+    tray_id: 1
+    copies: 1
+  - id: '3'
+    title: Motor Cycle
+    print_method: SLS
+    dye_color: GREEN
+    is_dyed: true
+    material_id: SLS_GREEN
+    model_id: motor_cycle
+    model_fn: motor_cycle.stl
+    category: Scale Models
+    tray_id: 1
+    copies: 3
+  - id: '4'
+    title: Glasses
+    print_method: SLS
+    dye_color: BLACK
+    is_dyed: true
+    material_id: SLS_BLACK
+    model_id: glasses
+    model_fn: glasses.stl
+    category: Eyewear
+    tray_id: 1
+    copies: 3
+  - id: '5'
+    title: Latch
+    print_method: SLS
+    dye_color: BLACK
+    is_dyed: true
+    material_id: SLS_BLACK
+    model_id: latch
+    model_fn: latch.stl
+    category: Fixtures
+    tray_id: 1
+    copies: 5
+  - id: '6'
+    title: Shark Keychain
+    print_method: SLS
+    dye_color: BLACK
+    is_dyed: true
+    material_id: SLS_BLACK
+    model_id: shark_keychain
+    model_fn: shark_keychain.stl
+    category: Figurines
+    tray_id: 1
+    copies: 5
+  - id: '7'
+    title: Battleship
+    print_method: SLS
+    dye_color: BLACK
+    is_dyed: true
+    material_id: SLS_BLACK
+    model_id: battleship
+    model_fn: battleship.stl
+    category: Scale Models
+    tray_id: 1
+    copies: 5
+  - id: '8'
+    title: Glasses
+    print_method: MJF
+    dye_color: null
+    is_dyed: false
+    material_id: MJF_PLAIN
+    model_id: glasses
+    model_fn: glasses.stl
+    category: Eyewear
+    tray_id: 1
+    copies: 1
+  - id: '9'
+    title: Feeder Body
+    print_method: MJF
+    dye_color: null
+    is_dyed: false
+    material_id: MJF_PLAIN
+    model_id: feeder_body
+    model_fn: feeder_body.stl
+    category: Fixtures
+    tray_id: 1
+    copies: 3
+  - id: '10'
+    title: Starfish
+    print_method: MJF
+    dye_color: null
+    is_dyed: false
+    material_id: MJF_PLAIN
+    model_id: starfish
+    model_fn: starfish.stl
+    category: Figurines
+    tray_id: 2
+    copies: 2
+  - id: '11'
+    title: 3Dbenchy
+    print_method: MJF
+    dye_color: null
+    is_dyed: false
+    material_id: MJF_PLAIN
+    model_id: 3dbenchy
+    model_fn: 3dbenchy.stl
+    category: Scale Models
+    tray_id: 2
+    copies: 4
+  - id: '12'
+    title: Glasses
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: glasses
+    model_fn: glasses.stl
+    category: Eyewear
+    tray_id: 2
+    copies: 1
+  - id: '13'
+    title: Hook A
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: hook_a
+    model_fn: hook_a.stl
+    category: Fixtures
+    tray_id: 2
+    copies: 4
+  - id: '14'
+    title: Hook B
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: hook_b
+    model_fn: hook_b.stl
+    category: Fixtures
+    tray_id: 2
+    copies: 3
+  - id: '15'
+    title: 608 Nut
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: 608_nut
+    model_fn: 608_nut.stl
+    category: Fixtures
+    tray_id: 2
+    copies: 1
+  - id: '16'
+    title: 608 Core1
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: 608_core1
+    model_fn: 608_core1.stl
+    category: Fixtures
+    tray_id: 2
+    copies: 5
+  - id: '17'
+    title: R Z Base
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: r_z_base
+    model_fn: r_z_base.stl
+    category: Fixtures
+    tray_id: 2
+    copies: 1
+  - id: '18'
+    title: 608 Core2
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: 608_core2
+    model_fn: 608_core2.stl
+    category: Fixtures
+    tray_id: 2
+    copies: 2
+  - id: '19'
+    title: Vase
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: vase
+    model_fn: vase.stl
+    category: Figurines
+    tray_id: 2
+    copies: 3
+  - id: '20'
+    title: Necklace
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: necklace
+    model_fn: necklace.stl
+    category: Figurines
+    tray_id: 3
+    copies: 5
+  - id: '21'
+    title: Camel
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: camel
+    model_fn: camel.stl
+    category: Figurines
+    tray_id: 3
+    copies: 1
+  - id: '22'
+    title: Wireframe Bottle
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: wireframe_bottle
+    model_fn: wireframe_bottle.stl
+    category: Figurines
+    tray_id: 3
+    copies: 3
+  - id: '23'
+    title: Mini Car 02
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: mini_car_02
+    model_fn: mini_car_02.stl
+    category: Scale Models
+    tray_id: 3
+    copies: 4
+  - id: '24'
+    title: Truck
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: truck
+    model_fn: truck.stl
+    category: Scale Models
+    tray_id: 3
+    copies: 3
+  - id: '25'
+    title: Airplane Shark
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: airplane_shark
+    model_fn: airplane_shark.stl
+    category: Scale Models
+    tray_id: 3
+    copies: 1
+  - id: '26'
+    title: Truck Covered
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: truck_covered
+    model_fn: truck_covered.stl
+    category: Scale Models
+    tray_id: 3
+    copies: 5
+  - id: '27'
+    title: Chess King
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: chess_king
+    model_fn: chess_king.stl
+    category: Figurines
+    tray_id: 3
+    copies: 5
+  - id: '28'
+    title: Chess Knight
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: chess_knight
+    model_fn: chess_knight.stl
+    category: Figurines
+    tray_id: 3
+    copies: 5
+  - id: '29'
+    title: Hand Left
+    print_method: SLS
+    dye_color: null
+    is_dyed: false
+    material_id: SLS_PLAIN
+    model_id: hand_left
+    model_fn: hand_left.stl
+    category: Scale Models
+    tray_id: 3
+    copies: 4
