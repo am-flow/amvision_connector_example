@@ -1,6 +1,8 @@
+# AM-Vision Connector sample code and data
+
 Example code and data files for integration with the AM-Vision API
 
-# Repo contents
+## Repo contents
 
 - **tutorial_prints** sample data used in the tutorial
 - **tutorial_code** sample code used in the tutorial
