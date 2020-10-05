@@ -47,11 +47,11 @@ class Importer():
                 # already have this one!
                 continue
             # if not existing, upload it
-            with open(prnt['model_fn'], 'rb') as in_file:
+            with open(os.path.join(meta['root'], prnt['model_fn']), 'rb') as in_file:
                 response = self.api.design_reference.post(
                     {'id': prnt['model_id']}, files={'stl': in_file}
                 )
-                stl_to_design[prnt['model_id']] = response['design']
+                prnt_to_design[prnt['model_id']] = response['design']
 
         log.info("Find materials")
         # get the AM-Vision material ids from the material references
@@ -69,20 +69,24 @@ class Importer():
                 'material': prnt_to_material[prnt['material_id']]
             })
         # create the design_material combinations with a bulk PUT
-        responses = self.api.design_material.put(dms)
-        dm_ids = [resp['id'] for resp in responses]
+        resp = self.api.design_material.put(dms)
+        prnt_to_dm = {(dm['design'], dm['material']):dm['id'] for dm in resp}
 
         log.info("Uploading prints")
         # now create the prints in bulk
         print_data = []
-        for prnt, dm_id in zip(meta['prints'], dm_ids):
+        for prnt in meta['prints']:
             # create the prints in bulk
+            dm = prnt_to_dm[(
+                prnt_to_design[prnt['model_id']],
+                prnt_to_material[prnt['material_id']]
+            )]
             print_data.append({
                 'id': prnt['id'],
                 'copies': prnt['copies'],
                 'title': prnt['title'],
                 'attributes': prnt,
-                'design_material': dm_id
+                'design_material': dm
             })
         # create the prints with a bulk PUT
         self.api.print.put(print_data)
