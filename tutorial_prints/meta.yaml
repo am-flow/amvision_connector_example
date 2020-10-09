@@ -54,8 +54,8 @@ print_attributes:
     sorting: true
     order: 12
   - id: has_dye
-    datatype: STRING
-    field: dye_color
+    datatype: BOOLEAN
+    field: is_dyed
     filtering: true
     summary: false
     detail: false
@@ -72,10 +72,10 @@ queries:
     query: dye=BLACK
     sorting: true
   - id: Plain_SLS
-    query: has_dye=False&method=SLS
+    query: has_dye=false&method=SLS
     sorting: true
   - id: Plain_MJF
-    query: has_dye=False&method=MJF
+    query: has_dye=false&method=MJF
     sorting: true
   - id: Green
     query: dye=GREEN
