@@ -1,5 +1,5 @@
+"""Demo importer."""
 import argparse
-import sys
 import os
 import time
 
@@ -17,6 +17,9 @@ class APIClient(slumber.API):
 
 
 def import_files(api, meta_fn):
+    api.notification.post({
+        'title': 'Running importer',
+    })
     print("load metadata and root path")
     with open(meta_fn, 'r') as in_file:
         meta = yaml.load(in_file, Loader=yaml.Loader)
@@ -45,7 +48,7 @@ def import_files(api, meta_fn):
 
         # upload design material
         response = api.design_material.post({
-            'design': design_id, 
+            'design': design_id,
             'material': material_id
         })
         design_material_id = response['id']
@@ -91,13 +94,25 @@ def import_files(api, meta_fn):
             'view': batch['view'],
             'query': batch['query'],
         })
+        api.notification.post({
+            'title': 'New batch uploaded',
+            'body': 'title: {}'.format(batch['title']),
+            'icon': 'fa fa-download',
+            'auto_close': True
+        })
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Print importer')
-    parser.add_argument('url', type=str, help='AM-Vision url')
-    parser.add_argument('token', type=str, help='AM-Vision token')
-    parser.add_argument('meta_fn', type=str, help='path to yaml file with print metadata')
+    parser.add_argument(
+        'url', type=str, help='AM-Vision url'
+    )
+    parser.add_argument(
+        'token', type=str, help='AM-Vision token'
+    )
+    parser.add_argument(
+        'meta_fn', type=str, help='path to yaml file with print metadata'
+    )
     args = parser.parse_args()
 
     start = time.time()

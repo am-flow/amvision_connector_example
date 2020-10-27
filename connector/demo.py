@@ -1,3 +1,4 @@
+"""Demo connector implementation."""
 import logging
 import sys
 
@@ -6,19 +7,20 @@ from .importer import Importer
 
 log = logging.getLogger(__name__)
 
+
 class DemoConnector(BaseConnector):
     """Demonstration connector."""
 
     def __init__(self, *args, print_fn=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.register_handlers({
-            'batch.started': self.on_event,
-            'batch.ended': self.on_event,
+            'batch.start': self.on_event,
+            'batch.end': self.on_event,
             'batch.reset': self.on_event,
-            'scan.captured': self.on_event,
-            'scan.rejected': self.on_event,
-            'scan.assigned': self.on_event,
-            'scan.unassigned': self.on_event,
+            'scan.capture': self.on_event,
+            'scan.reject': self.on_event,
+            'scan.assign': self.on_event,
+            'scan.unassign': self.on_event,
         })
         self.print_fn = print_fn
         self.importer = Importer(self.api)
@@ -46,10 +48,8 @@ if __name__ == '__main__':
         format='[%(asctime)s: %(levelname)s] %(message)s'
     )
     conn = DemoConnector(
-        args.ip, args.port, args.amv_url, args.amv_token, 
-        single_sync=args.single_sync, interval=args.interval, 
+        args.ip, args.port, args.amv_url, args.amv_token,
+        single_sync=args.single_sync, interval=args.interval,
         print_fn=args.prints
     )
     conn.run()
-
-

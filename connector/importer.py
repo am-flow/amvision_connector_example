@@ -1,3 +1,4 @@
+"""Demo importer implementation."""
 import argparse
 import sys
 import os
@@ -32,22 +33,26 @@ class Importer():
         self.api.query.put(meta['queries'])
 
     def import_all(self, meta_fn):
-        meta = self.load_meta_file(meta_fn)
+        self.api.notification.post(
+            {'title': 'Running importer...'}
+        )
 
+        meta = self.load_meta_file(meta_fn)
         log.info("Uploading designs")
         # first check which designs have been uploaded already
         ids = set(p['model_id'] for p in meta['prints'])
         resp = self.api.design_reference.search.post(
-            data={'id':','.join(ids)}, page_size=len(ids)
+            data={'id': ','.join(ids)}, page_size=len(ids)
         )
-        prnt_to_design = {ref['id']:ref['design'] for ref in resp['results']}
+        prnt_to_design = {ref['id']: ref['design'] for ref in resp['results']}
         # now upload the remaining stls one-by-one
         for prnt in meta['prints']:
             if prnt['model_id'] in prnt_to_design:
                 # already have this one!
                 continue
             # if not existing, upload it
-            with open(os.path.join(meta['root'], prnt['model_fn']), 'rb') as in_file:
+            model_fn = os.path.join(meta['root'], prnt['model_fn'])
+            with open(model_fn, 'rb') as in_file:
                 response = self.api.design_reference.post(
                     {'id': prnt['model_id']}, files={'stl': in_file}
                 )
@@ -57,9 +62,11 @@ class Importer():
         # get the AM-Vision material ids from the material references
         ids = set(p['material_id'] for p in meta['prints'])
         resp = self.api.material_reference.search.post(
-            data={'id':','.join(ids)}, page_size=len(ids)
+            data={'id': ','.join(ids)}, page_size=len(ids)
         )
-        prnt_to_material = {ref['id']:ref['material'] for ref in resp['results']}
+        prnt_to_material = {
+            ref['id']: ref['material'] for ref in resp['results']
+        }
 
         log.info("Uploading design materials")
         dms = []
@@ -70,7 +77,7 @@ class Importer():
             })
         # create the design_material combinations with a bulk PUT
         resp = self.api.design_material.put(dms)
-        prnt_to_dm = {(dm['design'], dm['material']):dm['id'] for dm in resp}
+        prnt_to_dm = {(dm['design'], dm['material']): dm['id'] for dm in resp}
 
         log.info("Uploading prints")
         # now create the prints in bulk
@@ -96,13 +103,24 @@ class Importer():
         self.api.batch.put(meta['batches'])
         # make sure the batches are all up to date
         self.api.batch.populate_all()
+        self.api.notification.post({
+            'title': 'New batches uploaded',
+            'icon': 'fa fa-download',
+            'auto_close': True
+        })
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Print importer')
-    parser.add_argument('url', type=str, help='AM-Vision url')
-    parser.add_argument('token', type=str, help='AM-Vision token')
-    parser.add_argument('meta_fn', type=str, help='path to yaml file with print metadata')
+    parser.add_argument(
+        'url', type=str, help='AM-Vision url'
+    )
+    parser.add_argument(
+        'token', type=str, help='AM-Vision token'
+    )
+    parser.add_argument(
+        'meta_fn', type=str, help='path to yaml file with print metadata'
+    )
     args = parser.parse_args()
     logging.basicConfig(
         stream=sys.stdout, level=logging.INFO,
@@ -116,7 +134,3 @@ if __name__=="__main__":
     importer.import_all(args.meta_fn)
     end = time.time()
     print("Imported models in %d seconds" % (end - start))
-
-
-
-
